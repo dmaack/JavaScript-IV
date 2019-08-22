@@ -33,13 +33,15 @@ Prototype Refactor
   * dimensions (These represent the character's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
-function GameObject(attr){
-    this.createdAt = attr.createdAt;
-    this.name = attr.name;
-    this.dimensions = attr.dimensions;
-  }
-  GameObject.prototype.destroy = function(){
-    return `${this.name} was removed from the game.`;
+class GameObject{
+    constructor(attr){
+        this.createdAt = attr.createdAt;
+        this.name = attr.name;
+        this.dimensions = attr.dimensions;
+    }
+    destroy(){
+        return `${this.name} was removed from the game.`;
+    }  
   }
   /*
     === CharacterStats ===
@@ -47,14 +49,16 @@ function GameObject(attr){
     * takeDamage() // prototype method -> returns the string '<object name> took damage.'
     * should inherit destroy() from GameObject's prototype
   */
-  function CharacterStats(attr){
-    this.healthPoints = attr.healthPoints;
-    GameObject.call(this, attr);
+  class CharacterStats extends GameObject{
+      constructor(attr){
+        super(attr);
+        this.healthPoints = attr.healthPoints;
+      }
+    takeDamage(){
+        return `${this.name} took damage`;
+    }
   }
-  CharacterStats.prototype = Object.create(GameObject.prototype);
-  CharacterStats.prototype.takeDamage = function(){
-    return `${this.name} took damage`;
-  }
+    
   /*
     === Humanoid (Having an appearance or character resembling that of a human.) ===
     * team
@@ -64,40 +68,41 @@ function GameObject(attr){
     * should inherit destroy() from GameObject through CharacterStats
     * should inherit takeDamage() from CharacterStats
   */
-   function Humanoid(attr){
-     this.team = attr.team;
-     this.weapons = attr.weapons;
-     this.language = attr.language;
-     CharacterStats.call(this,attr);
+   class Humanoid extends CharacterStats{
+       constructor(attr){
+        super(attr);   
+        this.team = attr.team;
+        this.weapons = attr.weapons;
+        this.language = attr.language;
+       }
+     greet(){
+        return `${this.name} offers a greeting in ${this.language}`;
+     }
    }
-   
-  Humanoid.prototype = Object.create(CharacterStats.prototype);
-  Humanoid.prototype.greet = function(){
-    return `${this.name} offers a greeting in ${this.language}`;
-  }
-  
-  
   
   /******************* STRETCH CONSTRUCTORS *******************/
   
   
-   function Villain(attr){
-     Humanoid.call(this, attr);
+   class Villain extends Humanoid{
+       constructor(attr){
+        super(attr);
+       }
+     foo(){
+        return `${this.name} used ${this.weapons} and reduced ${hero} opponents healthPoints by 5`;
+     }
+   }
+
+  
+   class Hero extends Humanoid{
+       constructor(attr){
+        super(attr);
+       }
+     bar(){
+        return `${this.name} used ${this.weapons} and reduced ${villain} opponents healthPoints by 10`;
+     }
    }
   
-   Villain.prototype = Object.create(Humanoid.prototype);
-   Villain.prototype.foo =function(hero){
-     return `${this.name} used ${this.weapons} and reduced ${hero} opponents healthPoints by 5`;
-   }
-  
-   function Hero(attr){
-     Humanoid.call(this, attr);
-   }
-  
-   Hero.prototype = Object.create(Humanoid.prototype);
-   Hero.prototype.bar =function(villain){
-    return `${this.name} used ${this.weapons} and reduced ${villain} opponents healthPoints by 10`;
-  }
+   
 
   
   /*
