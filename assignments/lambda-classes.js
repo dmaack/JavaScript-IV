@@ -21,6 +21,9 @@ class Instructor extends Person{
     demo(subject){
         console.log(`Today we are learning about ${subject}`);
     }
+    grade(student, subject){
+        console.log(`${student.name} receives a perfect score on ${subject}`)
+    }
 }
 
 class Student extends Instructor{
@@ -28,16 +31,16 @@ class Student extends Instructor{
         super(attr);
         this.previousBackground = attr.previousBackground;
         this.className = attr.className;
-        this.favSubject = attr.favSubject;
+        this.favSubjects = attr.favSubjects;
     }
     listSubjects(){
-        console.log(`My favorite subjects are ${this.favSubject}`);
+        console.log(`${this.name}'s favorite subjects are ${this.favSubjects}`);
     }
     PRAssignment(subject){
         console.log(`${this.name} has submitted a PR for ${subject}`);
     }
     sprintChallange(subject){
-        console.log(`${this.name} has begun the sprint challenge on ${this.subject}`);
+        console.log(`${this.name} has begun the sprint challenge on ${subject}`);
     }
 }
 
@@ -45,11 +48,11 @@ class Student extends Instructor{
 class ProjectManager extends Instructor{
     constructor(attr){
         super(attr);
-        this.grandClassName = attr.grandClassName;
+        this.gradClassName = attr.gradClassName;
         this.favInstructor = attr.favInstructor;
     }
-    standup(slack){
-        console.log(`${this.name} announces to ${channel}, @channel standy times!`);
+    standup(channel){
+        console.log(`${this.name} announces to ${channel}, standy times!`);
     }
     debugCode(student, subject){
         console.log(`${this.name} debugs ${student.name}'s code on ${subject}`);
@@ -75,7 +78,7 @@ const student = new Student({
     catchPhrase: '',
     previousBackground: 'Exercise Physiology',
     className: 'WEB23',
-    favSubject: 'CSS'
+    favSubjects: ['HTML',' CSS',' JavaScript']
 })
 
 const pm = new ProjectManager({
@@ -85,14 +88,16 @@ const pm = new ProjectManager({
     specialty: 'redux',
     favLanguage: 'Python',
     catchPhrase: 'Im so proud of you guys',
-    grandClassName: 'CS1',
+    gradClassName: 'CS1',
     favInstructor: 'Britt'
 })
 
 
-console.log(instructor.demo());
+
+console.log(instructor.demo('JavaScript'));
+console.log(instructor.grade(student, 'JavaScript'));
 console.log(student.listSubjects());
-console.log(student.PRAssignment());
-console.log(student.sprintChallange());
-console.log(pm.standup());
-console.log(pm.debugCode());
+console.log(student.PRAssignment('JavaScript IV'));
+console.log(student.sprintChallange('JavaScript Fundamentals'));
+console.log(pm.standup('@channel'));
+console.log(pm.debugCode(student, 'Repl.it Challenge'));
