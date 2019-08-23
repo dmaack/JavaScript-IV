@@ -34,7 +34,11 @@ class Student extends Instructor{
         this.favSubjects = attr.favSubjects;
     }
     listSubjects(){
-        return (`${this.name}'s favorite subjects are ${this.favSubjects}`);
+        let string = '';
+        for (let i=0; i < this.favSubjects.length; i++){
+            string += this.favSubjects[i] + ' ';
+        }
+        return `${this.name}'s favorite subjects are ${string}`;
     }
     PRAssignment(subject){
         return (`${this.name} has submitted a PR for ${subject}`);
@@ -78,7 +82,7 @@ const student = new Student({
     catchPhrase: '',
     previousBackground: 'Exercise Physiology',
     className: 'WEB23',
-    favSubjects: ['HTML',' CSS',' JavaScript']
+    favSubjects: ['Human Physiology','Biomechanics','Computer Science']
 })
 
 const pm = new ProjectManager({
@@ -96,8 +100,14 @@ const pm = new ProjectManager({
 
 console.log(instructor.demo('JavaScript'));
 console.log(instructor.grade(student, 'JavaScript'));
+
+
+
 console.log(student.listSubjects());
 console.log(student.PRAssignment('JavaScript IV'));
 console.log(student.sprintChallange('JavaScript Fundamentals'));
+
+
+
 console.log(pm.standup('@channel'));
 console.log(pm.debugCode(student, 'Repl.it Challenge'));
